@@ -300,6 +300,8 @@ public:
     /// add a vertical constraint to a geometry
     int addVerticalConstraint(int geoId);
     int addVerticalConstraint(int geoId1, PointPos pos1, int geoId2, PointPos pos2);
+    // actually just "to the right of"
+    int addGreaterThanConstraint(int geoId);
     /// add a coincident constraint to two points of two geometries
     int addPointCoincidentConstraint(int geoId1, PointPos pos1, int geoId2, PointPos pos2);
     /**

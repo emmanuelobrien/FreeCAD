@@ -77,6 +77,11 @@ int ConstraintPy::PyInit(PyObject* args, PyObject* /*kwd*/)
             this->getConstraintPtr()->First = FirstIndex;
             return 0;
         }
+        else if (strcmp("GreaterThan", ConstraintType) == 0) {
+            this->getConstraintPtr()->Type = GreaterThan;
+            this->getConstraintPtr()->First = FirstIndex;
+            return 0;
+        }
         else if (strcmp("Block", ConstraintType) == 0) {
             this->getConstraintPtr()->Type = Block;
             this->getConstraintPtr()->First = FirstIndex;
@@ -524,6 +529,9 @@ std::string ConstraintPy::representation() const
         case None:
             result << "'None'>";
             break;
+        case GreaterThan:
+            result << "'GreaterThan'";
+            break;
         case DistanceX:
             result << "'DistanceX'>";
             break;
@@ -650,6 +658,9 @@ Py::String ConstraintPy::getType() const
     switch (this->getConstraintPtr()->Type) {
         case None:
             return Py::String("None");
+            break;
+        case GreaterThan:
+            return Py::String("GreaterThan");
             break;
         case DistanceX:
             return Py::String("DistanceX");

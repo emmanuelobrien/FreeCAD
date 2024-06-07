@@ -599,6 +599,20 @@ void System::removeConstraint(Constraint* constr)
 
 // basic constraints
 
+int System::addConstraintGreaterThan(double* param1,
+                               double* param2,
+                               int tagId,
+                               bool driving,
+                               Constraint::Alignment internalalignment)
+{
+    Constraint* constr = new ConstraintGreaterThan(param1, param2);
+    constr->setTag(tagId);
+    constr->setDriving(driving);
+    constr->setInternalAlignment(internalalignment);
+    return addConstraint(constr);
+}
+
+
 int System::addConstraintEqual(double* param1,
                                double* param2,
                                int tagId,
@@ -899,6 +913,12 @@ int System::addConstraintArcLength(Arc& a, double* distance, int tagId, bool dri
 
 
 // derived constraints
+//
+int System::addConstraintLineGreaterThan(Line& l, int tagId, bool driving)
+{
+    return addConstraintGreaterThan(l.p1.x, l.p2.x, tagId, driving);
+}
+
 
 int System::addConstraintP2PCoincident(Point& p1, Point& p2, int tagId, bool driving)
 {
@@ -923,6 +943,7 @@ int System::addConstraintVertical(Line& l, int tagId, bool driving)
 
 int System::addConstraintVertical(Point& p1, Point& p2, int tagId, bool driving)
 {
+    //return addConstraintGreaterThan(p1.x, p2.x, tagId, driving);
     return addConstraintEqual(p1.x, p2.x, tagId, driving);
 }
 

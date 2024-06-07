@@ -33,6 +33,8 @@
 #include <cassert>
 #endif
 
+#include <Base/Console.h>
+
 #include <boost/graph/graph_concepts.hpp>
 
 #include "Constraints.h"
@@ -108,6 +110,54 @@ int Constraint::findParamInPvec(double* param)
         }
     }
     return ret;
+}
+
+// --------------------------------------------------------
+// Greater Than
+ConstraintGreaterThan::ConstraintGreaterThan(double* p1, double* p2)
+{
+    Base::Console().Log("Constructor %f %f\n", *p1, *p2);
+    pvec.push_back(p1);
+    pvec.push_back(p2);
+    origpvec = pvec;
+    rescale();
+}
+
+ConstraintType ConstraintGreaterThan::getTypeId()
+{
+    return GreaterThan;
+}
+
+void ConstraintGreaterThan::rescale(double coef)
+{
+    scale = coef * 1.;
+}
+
+double ConstraintGreaterThan::error()
+{
+  Base::Console().Log("%f - %f error\n", *param1(), *param2());
+  double d = *param2() - *param1();
+  d = (fabs(d) + d) / 2.0;
+  return scale * d;
+}
+
+double ConstraintGreaterThan::grad(double* param)
+{
+    double deriv = 0.;
+    double e = this->error();
+
+    if (param == param1()) {
+      if (e != 0.0) {
+        deriv = -1;
+      }
+    }
+    if (param == param2()) {
+      if (e != 0.0) {
+        deriv = 1;
+      }
+    }
+    Base::Console().Log("%f - %f -> %f grad %d %d \n", *param1(), *param2(), deriv, param == param1(), param == param2());
+    return scale * deriv;
 }
 
 

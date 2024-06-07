@@ -1963,6 +1963,11 @@ int Sketch::addConstraint(const Constraint* constraint)
                                              c.driving);
             }
             break;
+        case GreaterThan:
+            if (constraint->Second == GeoEnum::GeoUndef) {
+                rtn = addGreaterThanConstraint(constraint->First);
+            }
+            break;
         case Horizontal:
             if (constraint->Second == GeoEnum::GeoUndef) {  // horizontal line
                 rtn = addHorizontalConstraint(constraint->First);
@@ -2739,6 +2744,20 @@ int Sketch::addVerticalConstraint(int geoId1, PointPos pos1, int geoId2, PointPo
         return ConstraintsCounter;
     }
     return -1;
+}
+
+int Sketch::addGreaterThanConstraint(int geoId)
+{
+    geoId = checkGeoId(geoId);
+
+    if (Geoms[geoId].type != Line) {
+        return -1;
+    }
+
+    GCS::Line& l = Lines[Geoms[geoId].index];
+    int tag = ++ConstraintsCounter;
+    GCSsys.addConstraintLineGreaterThan(l, tag);
+    return ConstraintsCounter;
 }
 
 int Sketch::addPointCoincidentConstraint(int geoId1, PointPos pos1, int geoId2, PointPos pos2)

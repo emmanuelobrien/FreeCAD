@@ -83,6 +83,7 @@ enum ConstraintType
     AngleViaPointAndTwoParams = 34,
     AngleViaTwoPoints = 35,
     ArcLength = 36,
+    GreaterThan = 37,
 };
 
 enum InternalAlignmentType
@@ -179,6 +180,29 @@ public:
     // Returns -1 if not found.
     int findParamInPvec(double* param);
 };
+
+// GreaterThan
+class ConstraintGreaterThan: public Constraint
+{
+private:
+    double ratio;
+    inline double* param1()
+    {
+        return pvec[0];
+    }
+    inline double* param2()
+    {
+        return pvec[1];
+    }
+
+public:
+    ConstraintGreaterThan(double* p1, double* p2);
+    ConstraintType getTypeId() override;
+    void rescale(double coef = 1.) override;
+    double error() override;
+    double grad(double*) override;
+};
+
 
 // Equal
 class ConstraintEqual: public Constraint

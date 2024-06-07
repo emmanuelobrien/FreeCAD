@@ -251,6 +251,12 @@ public:
     void removeConstraint(Constraint* constr);
 
     // basic constraints
+    int addConstraintGreaterThan(
+        double* param1,
+        double* param2,
+        int tagId = 0,
+        bool driving = true,
+        Constraint::Alignment internalalignment = Constraint::Alignment::NoInternalAlignment);
     int addConstraintEqual(
         double* param1,
         double* param2,
@@ -360,6 +366,7 @@ public:
                                           bool driving = true);
 
     // derived constraints
+    int addConstraintLineGreaterThan(Line& l, int tagId = 0, bool driving = true);
     int addConstraintP2PCoincident(Point& p1, Point& p2, int tagId = 0, bool driving = true);
     int addConstraintHorizontal(Line& l, int tagId = 0, bool driving = true);
     int addConstraintHorizontal(Point& p1, Point& p2, int tagId = 0, bool driving = true);

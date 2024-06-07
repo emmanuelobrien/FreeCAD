@@ -63,6 +63,7 @@ enum ConstraintType : int
     Block = 17,
     Diameter = 18,
     Weight = 19,
+    GreaterThan = 20,
     NumConstraintTypes  // must be the last item!
 };
 
@@ -172,7 +173,8 @@ private:
          "SnellsLaw",
          "Block",
          "Diameter",
-         "Weight"}};
+         "Weight",
+         "GreaterThan"}};
 
     constexpr static std::array<const char*, InternalAlignmentType::NumInternalAlignmentType>
         internalAlignmentType2str {{"Undef",
